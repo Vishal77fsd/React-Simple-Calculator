@@ -8,7 +8,12 @@ const App = () => {
 
   const ops = ["/", "*", "+", "-", "."];
 
+  // updating calc
   const updateCalc = (value) => {
+    // case 1 -> calc is empty and user is trying to click on operators then do not add that operator in calc
+
+    // case 2 -> if user adds duplicates operators then remove the last operator
+
     if (
       (ops.includes(value) && calc === "") ||
       (ops.includes(value) && ops.includes(calc.slice(-1)))
@@ -17,11 +22,13 @@ const App = () => {
     }
     setCalc(calc + value);
 
+    // if last value is not ops the set the result
     if (!ops.includes(value)) {
       setResult(eval(calc + value).toString());
     }
   };
 
+  // creating digits and pushing it in digits array and returing it
   const createDigits = () => {
     const digits = [];
 
@@ -36,17 +43,15 @@ const App = () => {
     return digits;
   };
 
+  // calculating the value using eval function
   const calculate = () => {
     setCalc(eval(calc).toString());
   };
 
-  const deleteLast = () => {
-    if (calc === "") {
-      return;
-    }
-    const value = calc.slice(0, -1);
-
-    setCalc(value);
+  // setting the calc value and result value empty
+  const clear = () => {
+    setResult("");
+    setCalc("");
   };
 
   return (
@@ -61,14 +66,13 @@ const App = () => {
           <button onClick={() => updateCalc("*")}>*</button>
           <button onClick={() => updateCalc("+")}>+</button>
           <button onClick={() => updateCalc("-")}>-</button>
-          <button onClick={deleteLast}>DEL</button>
+          <button onClick={clear}>CLEAR</button>
         </div>
 
         <div className="digits">
           {createDigits()}
           <button onClick={() => updateCalc("0")}>0</button>
           <button onClick={() => updateCalc(".")}>.</button>
-
           <button onClick={calculate}>=</button>
         </div>
       </div>
